@@ -43,7 +43,7 @@ const INITIAL_PROPERTIES = [
       "/images/1_4.jpg"
     ],
     seller: "Reza",
-    phone: "085894872978",
+    phone: "+6285894872978",
     coordinates: { x: -6.646172, y: 107.0331773 }, 
     aiScore: 92,
     isVerified: true
