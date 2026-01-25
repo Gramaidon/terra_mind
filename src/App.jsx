@@ -35,11 +35,12 @@ const INITIAL_PROPERTIES = [
     description: "Tanah kavling premium seluas 9034 m² berlokasi di Jonggol, Sukawangi, Bogor. Sangat ideal untuk pembangunan villa pribadi, estate eksklusif, atau investasi properti jangka panjang. Akses jalan mudah dilalui kendaraan, lingkungan tenang dan asri dengan pemandangan hijau alami.",
     // Menggunakan path lokal (Pastikan file ada di public/images/tanah-jonggol.png)
     // Jika belum ada, ganti string ini kembali ke URL Unsplash
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000",
+    image: "/images/1_1.png",
     images: [
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1516156008625-3a9d60da92eb?auto=format&fit=crop&q=80&w=1000", 
-      "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000"
+      "/images/1_1.png",
+      "/images/1_2.jpg",
+      "/images/1_3.jpg",
+      "/images/1_4.jpg"
     ],
     seller: "Reza",
     phone: "085894872978",
@@ -47,48 +48,48 @@ const INITIAL_PROPERTIES = [
     aiScore: 92,
     isVerified: true
   },
-  {
-    id: 2,
-    title: "Tanah Zona Komersial Canggu",
-    location: "Canggu, Badung, Bali",
-    price: 3500000000,
-    pricePerMeter: 10000000,
-    area: 350,
-    legality: "SHM",
-    type: "Komersial",
-    description: "Lokasi sangat strategis di area pariwisata. 5 menit ke pantai. ITR Akomodasi Wisata. Sangat langka. Cocok untuk dibangun cafe, restoran, atau guest house.",
-    image: "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
-    images: [
-      "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1000"
-    ],
-    seller: "Sarah Land Agent",
-    phone: "628198765432",
-    coordinates: { x: 60, y: 60 },
-    aiScore: 98,
-    isVerified: true
-  },
-  {
-    id: 3,
-    title: "Kebun Durian Produktif Bogor",
-    location: "Caringin, Bogor, Jawa Barat",
-    price: 450000000,
-    pricePerMeter: 900000,
-    area: 500,
-    legality: "AJB",
-    type: "Perkebunan",
-    description: "Tanah subur sudah ada pohon durian musang king. Udara sejuk, sumber air melimpah. Cocok untuk healing atau investasi jangka panjang di bidang agrobisnis.",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1000",
-    images: [
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1598555731364-783515431dc8?auto=format&fit=crop&q=80&w=1000"
-    ],
-    seller: "Pak Asep Tani",
-    phone: "628123456780",
-    coordinates: { x: 20, y: 70 },
-    aiScore: 85,
-    isVerified: false 
-  },
+  // {
+  //   id: 2,
+  //   title: "Tanah Zona Komersial Canggu",
+  //   location: "Canggu, Badung, Bali",
+  //   price: 3500000000,
+  //   pricePerMeter: 10000000,
+  //   area: 350,
+  //   legality: "SHM",
+  //   type: "Komersial",
+  //   description: "Lokasi sangat strategis di area pariwisata. 5 menit ke pantai. ITR Akomodasi Wisata. Sangat langka. Cocok untuk dibangun cafe, restoran, atau guest house.",
+  //   image: "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
+  //   images: [
+  //     "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
+  //     "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1000"
+  //   ],
+  //   seller: "Sarah Land Agent",
+  //   phone: "628198765432",
+  //   coordinates: { x: 60, y: 60 },
+  //   aiScore: 98,
+  //   isVerified: true
+  // },
+  // {
+  //   id: 3,
+  //   title: "Kebun Durian Produktif Bogor",
+  //   location: "Caringin, Bogor, Jawa Barat",
+  //   price: 450000000,
+  //   pricePerMeter: 900000,
+  //   area: 500,
+  //   legality: "AJB",
+  //   type: "Perkebunan",
+  //   description: "Tanah subur sudah ada pohon durian musang king. Udara sejuk, sumber air melimpah. Cocok untuk healing atau investasi jangka panjang di bidang agrobisnis.",
+  //   image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1000",
+  //   images: [
+  //     "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=1000",
+  //     "https://images.unsplash.com/photo-1598555731364-783515431dc8?auto=format&fit=crop&q=80&w=1000"
+  //   ],
+  //   seller: "Pak Asep Tani",
+  //   phone: "628123456780",
+  //   coordinates: { x: 20, y: 70 },
+  //   aiScore: 85,
+  //   isVerified: false 
+  // },
 ];
 
 // --- 2. COMPONENTS (Navbar, Card) ---
@@ -103,7 +104,7 @@ function Navbar({ currentView, setView }) {
           className="flex items-center gap-2 cursor-pointer group" 
           onClick={() => setView('home')}
         >
-          <div className="w-11 h-11 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-lg flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-emerald-200 transition-all p-1">
+          <div className="w-11 h-11 bg-gradient-to-br from-emerald-0 to-teal-700 rounded-lg flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-emerald-200 transition-all p-1">
             {/* Ganti path logo sesuai lokasi file di public/ */}
             <img 
               src="/Logo_terramind.png" 
@@ -130,7 +131,7 @@ function Navbar({ currentView, setView }) {
         </nav>
 
         {/* ACTION BUTTONS */}
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <button 
             onClick={() => setView('signin')}
             className="hidden md:flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium text-sm px-3 py-2 rounded-lg hover:bg-gray-100 transition"
@@ -143,7 +144,7 @@ function Navbar({ currentView, setView }) {
           >
             <PlusCircle size={18} /> Pasang Iklan
           </button>
-        </div>
+        </div> */}
 
       </div>
     </header>
