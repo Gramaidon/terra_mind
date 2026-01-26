@@ -25,14 +25,14 @@ const formatRupiah = (number) => {
 const INITIAL_PROPERTIES = [
   {
     id: 1,
-    title: "Tanah Kavling Jonggol View Bukit",
+    title: "Tanah Global Jonggol View Bukit",
     location: "Jonggol, Sukawangi, Bogor",
     price: 1987480000,
     pricePerMeter: 220000,
     area: 9034,
     legality: "SHM",
     type: "Kavling Villa",
-    description: "Tanah kavling premium seluas 9034 m² berlokasi di Jonggol, Sukawangi, Bogor. Sangat ideal untuk pembangunan villa pribadi, estate eksklusif, atau investasi properti jangka panjang. Akses jalan mudah dilalui kendaraan, lingkungan tenang dan asri dengan pemandangan hijau alami.",
+    description: "Tanah globalan seluas 9034 m² berlokasi di Jonggol, Sukawangi, Bogor. Sangat ideal untuk pembangunan villa pribadi, estate eksklusif, atau investasi properti jangka panjang. Akses jalan mudah dilalui kendaraan, lingkungan tenang dan asri dengan pemandangan hijau alami.",
     // Menggunakan path lokal (Pastikan file ada di public/images/tanah-jonggol.png)
     // Jika belum ada, ganti string ini kembali ke URL Unsplash
     image: "/images/1_1.png",
@@ -42,33 +42,42 @@ const INITIAL_PROPERTIES = [
       "/images/1_3.jpg",
       "/images/1_4.jpg"
     ],
-    seller: "Reza",
+    seller: "Rezza Siartomoro",
     phone: "+6285894872978",
     coordinates: { x: -6.646172, y: 107.0331773 }, 
     aiScore: 92,
     isVerified: true
   },
-  // {
-  //   id: 2,
-  //   title: "Tanah Zona Komersial Canggu",
-  //   location: "Canggu, Badung, Bali",
-  //   price: 3500000000,
-  //   pricePerMeter: 10000000,
-  //   area: 350,
-  //   legality: "SHM",
-  //   type: "Komersial",
-  //   description: "Lokasi sangat strategis di area pariwisata. 5 menit ke pantai. ITR Akomodasi Wisata. Sangat langka. Cocok untuk dibangun cafe, restoran, atau guest house.",
-  //   image: "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
-  //   images: [
-  //     "https://images.unsplash.com/photo-1628624747186-a941c725611b?auto=format&fit=crop&q=80&w=1000",
-  //     "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1000"
-  //   ],
-  //   seller: "Sarah Land Agent",
-  //   phone: "628198765432",
-  //   coordinates: { x: 60, y: 60 },
-  //   aiScore: 98,
-  //   isVerified: true
-  // },
+  {
+    id: 2,
+    title: "Tanah Kavling Bonjovi Village",
+    location: "Sukayaja, Jonggol, Bogor",
+    price: 50000000,
+    pricePerMeter: 500000,
+    area: 100,
+    legality: "SHM",
+    type: "Komersial",
+    description: "INVESTASI CERDAS DI TIMUR CIBUBUR! \n\n⚡ LAUNCHING PERDANA: TERSEDIA 50 UNIT EKSKLUSIF! ⚡\n\nKesempatan langka memiliki aset tanah seluas 100 m² hanya dengan 50 Juta Rupiah! Kami membuka 50 unit kavling siap bangun dalam satu hamparan yang rapi dan tertata.\n\n✅ Harga All-In (Terima Beres): Tidak ada biaya tersembunyi, harga sudah termasuk biaya pengurusan Surat Hak Milik (SHM) atas nama Anda.\n✅ Lokasi Strategis: Terletak di kawasan berkembang Sukayaja, Jonggol dengan pemandangan asri dan udara sejuk.\n✅ Potensi Tinggi: Sangat cocok untuk tabungan aset, perkebunan produktif, atau dibangun villa mungil.\n\nJangan tunda! Amankan posisi terbaik Anda dari 50 unit yang tersedia sebelum kehabisan!",    
+    image: "/images/2_1.jpeg", // Pastikan file ada di folder public/images/
+    images: [
+      "/images/2_1.jpeg",
+      "/images/2_2.jpeg",
+      "/images/2_3.jpeg",
+      "/images/2_4.jpeg",
+      "/images/2_5.jpeg",
+      "/images/2_6.jpeg"
+    ],
+    seller: "Rezza Siartomoro",
+    phone: "628198765432",
+    coordinates: { x: -6.5468243, y: 106.9997408 },
+    aiScore: 98,
+    isVerified: true,
+    
+    // --- DATA BARU (UNIT STOK) ---
+    totalUnits: 50,
+    availableUnits: 50, // 50 dari 50 masih ada
+    isCluster: true     // Penanda bahwa ini adalah Cluster/Kawasan
+  },
   // {
   //   id: 3,
   //   title: "Kebun Durian Produktif Bogor",
@@ -504,8 +513,8 @@ function SignUp({ onNavigate }) {
 // --- PROPERTY DETAIL (WITH INTERACTIVE GALLERY) ---
 
 function PropertyDetail({ property, onBack }) {
-  // STATE GAMBAR INTERAKTIF
   const [activeImage, setActiveImage] = useState(property ? property.image : '');
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   useEffect(() => {
     if (property) {
@@ -515,125 +524,205 @@ function PropertyDetail({ property, onBack }) {
 
   if (!property) return null;
 
+  // Menghitung Persentase Ketersediaan untuk Progress Bar
+  const availabilityPercentage = property.totalUnits 
+    ? Math.round((property.availableUnits / property.totalUnits) * 100) 
+    : 0;
+
+  // Menentukan warna progress bar (Hijau jika banyak, Merah jika sedikit)
+  const progressColor = availabilityPercentage > 50 ? 'bg-emerald-500' : (availabilityPercentage > 20 ? 'bg-yellow-500' : 'bg-red-500');
+  const statusText = availabilityPercentage === 100 ? 'Baru Launching!' : (availabilityPercentage < 20 ? 'Segera Habis!' : 'Tersedia');
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
-      <button 
-        onClick={onBack}
-        className="flex items-center gap-2 text-gray-500 hover:text-emerald-600 mb-6 font-medium transition group"
-      >
-        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-emerald-100 transition">
-          <ArrowLeft size={16} />
-        </div>
-        Kembali ke Pencarian
-      </button>
+    <>
+      <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
+        <button 
+          onClick={onBack}
+          className="flex items-center gap-2 text-gray-500 hover:text-emerald-600 mb-6 font-medium transition group"
+        >
+          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-emerald-100 transition">
+            <ArrowLeft size={16} />
+          </div>
+          Kembali ke Pencarian
+        </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Kolom Kiri: Gambar & Info */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Main Image */}
-          <div className="w-full h-[450px] bg-gray-200 rounded-3xl overflow-hidden shadow-sm relative group">
-            <img 
-              src={activeImage} 
-              alt={property.title} 
-              className="w-full h-full object-cover transition duration-700 group-hover:scale-105" 
-            />
-            {property.isVerified && (
-               <div className="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-20 flex items-center gap-2">
-                 <ShieldCheck size={14} /> Dokumen Terverifikasi
-               </div>
-            )}
-          </div>
+          {/* KOLOM KIRI (GAMBAR & DESKRIPSI) */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="w-full h-[450px] bg-gray-200 rounded-3xl overflow-hidden shadow-sm relative group">
+              <img 
+                src={activeImage} 
+                alt={property.title} 
+                className="w-full h-full object-cover transition duration-700 group-hover:scale-105" 
+              />
+              {property.isVerified && (
+                 <div className="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-20 flex items-center gap-2">
+                   <ShieldCheck size={14} /> Dokumen Terverifikasi
+                 </div>
+              )}
+              {/* Badge khusus jika Cluster/Ada Unit */}
+              {property.isCluster && (
+                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur text-emerald-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-20 flex items-center gap-2">
+                   <Layers size={14} /> Cluster Exclusive
+                 </div>
+              )}
+            </div>
 
-          {/* Mini Gallery */}
-          {property.images && property.images.length > 0 && (
-            <div className="grid grid-cols-4 gap-4">
-              {property.images.map((img, idx) => (
+            {/* Mini Gallery */}
+            {property.images && property.images.length > 0 && (
+              <div className="grid grid-cols-4 gap-4">
+                {property.images.slice(0, 3).map((img, idx) => (
+                  <div 
+                    key={idx} 
+                    onClick={() => setActiveImage(img)}
+                    className={`
+                      h-24 rounded-xl overflow-hidden cursor-pointer border-2 transition relative
+                      ${activeImage === img ? 'border-emerald-500 ring-2 ring-emerald-100' : 'border-transparent hover:border-emerald-300'}
+                    `}
+                  >
+                    <img src={img} className="w-full h-full object-cover" alt={`View ${idx+1}`} />
+                  </div>
+                ))}
                 <div 
-                  key={idx} 
-                  onClick={() => setActiveImage(img)}
-                  className={`
-                    h-24 rounded-xl overflow-hidden cursor-pointer border-2 transition relative
-                    ${activeImage === img ? 'border-emerald-500 ring-2 ring-emerald-100' : 'border-transparent hover:border-emerald-300'}
-                  `}
+                  onClick={() => setIsGalleryOpen(true)}
+                  className="h-24 rounded-xl bg-gray-100 flex flex-col items-center justify-center text-gray-500 cursor-pointer hover:bg-emerald-50 hover:text-emerald-600 border-2 border-transparent hover:border-emerald-200 transition"
                 >
-                  <img src={img} className="w-full h-full object-cover" alt={`View ${idx+1}`} />
+                   <Camera size={24} />
+                   <span className="text-xs font-bold mt-1">Lihat Semua ({property.images.length})</span>
                 </div>
-              ))}
-              <div className="h-24 rounded-xl bg-gray-100 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-200 transition">
-                 <Camera size={20} />
-                 <span className="text-[10px] font-bold mt-1">Lihat Semua</span>
               </div>
-            </div>
-          )}
+            )}
 
-          <div>
-            <div className="flex flex-wrap gap-3 mb-4">
-              <span className="bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-200">
-                {property.legality}
-              </span>
-              <span className="bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-medium">
-                {property.type}
-              </span>
+            <div>
+              <div className="flex flex-wrap gap-3 mb-4">
+                <span className="bg-emerald-100 text-emerald-700 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-200">{property.legality}</span>
+                <span className="bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-sm font-medium">{property.type}</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{property.title}</h1>
+              <p className="text-gray-500 flex items-center gap-2 text-lg">
+                <MapPin size={20} className="text-gray-400" /> {property.location}
+              </p>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{property.title}</h1>
-            <p className="text-gray-500 flex items-center gap-2 text-lg">
-              <MapPin size={20} className="text-gray-400" /> {property.location}
-            </p>
+            
+            <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <FileText size={20} className="text-emerald-600" /> Deskripsi Properti
+                </h3>
+                <p className="text-gray-600 leading-relaxed whitespace-pre-line text-lg">{property.description}</p>
+            </div>
           </div>
 
-          <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <FileText size={20} className="text-emerald-600" /> Deskripsi Properti
-            </h3>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line text-lg">
-              {property.description}
-            </p>
-          </div>
-        </div>
+          {/* KOLOM KANAN (HARGA, STOK & KONTAK) */}
+          <div className="space-y-6">
+            <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 sticky top-24">
+                <div className="mb-8 text-center md:text-left">
+                  <p className="text-gray-500 text-sm mb-1 font-medium">Harga Penawaran</p>
+                  <h2 className="text-4xl font-bold text-emerald-700 mb-1">{formatRupiah(property.price)}</h2>
+                  <p className="text-sm text-gray-400 font-medium">{formatRupiah(property.pricePerMeter)} / m²</p>
+                </div>
 
-        {/* Kolom Kanan: Harga & Kontak */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 sticky top-24">
-            <div className="mb-8 text-center md:text-left">
-              <p className="text-gray-500 text-sm mb-1 font-medium">Harga Penawaran</p>
-              <h2 className="text-4xl font-bold text-emerald-700 mb-1">{formatRupiah(property.price)}</h2>
-              <p className="text-sm text-gray-400 font-medium">{formatRupiah(property.pricePerMeter)} / m²</p>
+                {/* --- FITUR BARU: INFO KETERSEDIAAN UNIT --- */}
+                {property.totalUnits && (
+                  <div className="bg-gray-50 border border-emerald-100 rounded-2xl p-5 mb-6 shadow-sm relative overflow-hidden">
+                     <div className="flex justify-between items-center mb-3">
+                        <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                           <Activity size={16} /> Status Unit
+                        </div>
+                        <span className={`text-[10px] font-bold text-white px-2 py-0.5 rounded-full ${availabilityPercentage === 100 ? 'bg-blue-500' : 'bg-orange-500'}`}>
+                           {statusText}
+                        </span>
+                     </div>
+                     
+                     <div className="flex items-end gap-1 mb-2">
+                        <span className="text-3xl font-bold text-gray-900">{property.availableUnits}</span>
+                        <span className="text-sm text-gray-500 mb-1.5 font-medium">/ {property.totalUnits} unit tersedia</span>
+                     </div>
+
+                     {/* Progress Bar Visual */}
+                     <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+                        <div 
+                           className={`${progressColor} h-3 rounded-full transition-all duration-1000 ease-out`} 
+                           style={{ width: `${availabilityPercentage}%` }}
+                        ></div>
+                     </div>
+                     <p className="text-xs text-gray-400 text-right">Update: Real-time</p>
+                  </div>
+                )}
+                {/* ------------------------------------------- */}
+
+                <div className="bg-gray-50 rounded-2xl p-5 mb-6 space-y-4 border border-gray-100">
+                  <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                      <span className="text-sm text-gray-500 flex items-center gap-2"><Expand size={16} className="text-indigo-500"/> Luas Tanah</span>
+                      <span className="font-bold text-gray-900 text-lg">{property.area} m²</span>
+                  </div>
+                  <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                      <span className="text-sm text-gray-500 flex items-center gap-2"><FileBadge size={16} className="text-indigo-500"/> Legalitas</span>
+                      <span className="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{property.legality}</span>
+                  </div>
+                  {/* Tampilkan Tipe Unit jika ada */}
+                  {property.isCluster && (
+                     <div className="flex justify-between items-center border-b border-gray-200 pb-3">
+                       <span className="text-sm text-gray-500 flex items-center gap-2"><Construction size={16} className="text-indigo-500"/> Tipe Unit</span>
+                       <span className="font-bold text-gray-900">Commercial Lot</span>
+                     </div>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-2xl">
+                  <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-xl">
+                    {property.seller.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">{property.seller}</p>
+                    <p className="text-xs text-emerald-600 flex items-center gap-1 font-bold">
+                      <CheckCircle size={12} /> Verified Agent
+                    </p>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => window.open(`https://wa.me/${property.phone}`, '_blank')}
+                  className="w-full bg-white border-2 border-emerald-600 text-emerald-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition hover:bg-emerald-50"
+                >
+                  <Phone size={20} /> Chat via WhatsApp
+                </button>
             </div>
-
-            <div className="bg-gray-50 rounded-2xl p-5 mb-6 space-y-4 border border-gray-100">
-               <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-                  <span className="text-sm text-gray-500 flex items-center gap-2"><Expand size={16} className="text-indigo-500"/> Luas Tanah</span>
-                  <span className="font-bold text-gray-900 text-lg">{property.area} m²</span>
-               </div>
-               <div className="flex justify-between items-center border-b border-gray-200 pb-3">
-                  <span className="text-sm text-gray-500 flex items-center gap-2"><FileBadge size={16} className="text-indigo-500"/> Legalitas</span>
-                  <span className="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">{property.legality}</span>
-               </div>
-            </div>
-
-            <div className="flex items-center gap-4 mb-8 p-4 bg-gray-50 rounded-2xl">
-              <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-xl">
-                {property.seller.charAt(0)}
-              </div>
-              <div>
-                <p className="font-bold text-gray-900">{property.seller}</p>
-                <p className="text-xs text-emerald-600 flex items-center gap-1 font-bold">
-                  <CheckCircle size={12} /> Verified Agent
-                </p>
-              </div>
-            </div>
-
-            <button 
-              onClick={() => window.open(`https://wa.me/${property.phone}`, '_blank')}
-              className="w-full bg-white border-2 border-emerald-600 text-emerald-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition hover:bg-emerald-50"
-            >
-              <Phone size={20} /> Chat via WhatsApp
-            </button>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* MODAL GALERI FULLSCREEN */}
+      {isGalleryOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-sm flex flex-col animate-fade-in">
+          <div className="flex justify-between items-center p-4 md:p-6 text-white">
+            <h3 className="font-bold text-lg">{property.title} - Galeri Foto</h3>
+            <button 
+              onClick={() => setIsGalleryOpen(false)}
+              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition"
+            >
+              <div className="w-6 h-6 flex items-center justify-center font-bold">✕</div>
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 md:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+              {property.images.map((img, idx) => (
+                <div key={idx} className="rounded-xl overflow-hidden shadow-2xl border border-white/10 group">
+                  <img 
+                    src={img} 
+                    alt={`Gallery ${idx}`} 
+                    className="w-full h-auto object-cover hover:scale-105 transition duration-500" 
+                  />
+                  <div className="bg-gray-900/50 p-2 text-center text-white text-xs">
+                    Foto {idx + 1}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
